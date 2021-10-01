@@ -48,7 +48,7 @@ require("tidyverse")
 
 Here we will pull the data using the head function to begin modeling
 
-```{r, message=FALSE, echo=FALSE}
+```{r, message=FALSE}
 
 #Get the data end points from the API
 my_url<- GET("https://api.covid19api.com/summary")
