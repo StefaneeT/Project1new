@@ -1,0 +1,51 @@
+---
+title: "Project 1"
+author: "Stefanee Tillman"
+date: "9/25/2021"
+output: github_document
+---
+
+```{r, eval = FALSE}
+rmarkdown::render("C:/Users/Stefa/OneDrive/Documents/GitHub/Project1new/Project1new.rmd",
+ output_format = "github_document",
+ output_options = list(
+ toc = FALSE,
+ toc_depth = 3,
+ number_sections = FALSE,
+ df_print = "default",
+keep_html = FALSE
+))
+```
+
+```{r, eval = FALSE, message=FALSE}
+require("httr")
+require("jsonlite")
+require("dplyr")
+
+my_url<- paste0("https://api.covid19api.com/summary")
+my_result<- httr::GET(my_url)
+str(my_result)
+my_content<- httr::content(my_result, as = 'text')
+my_content_json<- jsonlite::fromJSON(my_content)
+str(my_result$content)
+
+data<- rawToChar(my_result$content)
+coviddata<- fromJSON(data)
+str(coviddata)
+```
+
+# Required Packages
+
+In this section shows the required packages needed to create this project.
+
+• `rmarkdown()` to convert rmarkdown using the render() function.
+
+• `knitr()` produces flexible designs and finer control of graphics.
+
+• `tidyverse()` to generate plots, use chaining/piping, and manipulate data. 
+
+• `jsonlite()` to convert between JSON data and R objects.
+
+• `vignette()` to view and display vignette.
+
+
