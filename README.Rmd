@@ -13,7 +13,7 @@ Some of these functions return data at a Global level and some of the APIs use t
 ```{r, eval = FALSE}
 rmarkdown::render("C:/Users/Stefa/OneDrive/Documents/GitHub/Project1new/README.rmd",
  output_format = "github_document",
- output_file = "README.md",
+ output_file = "docs",
  output_options = list(
  toc = FALSE,
  toc_depth = 3,
@@ -75,12 +75,12 @@ my_result_json2}
 
 ```
 
- #Two new added variables
+ # Two new added variables
  
 Here two new variables are created to display the cumulative sum of the variable "Countries.NewConfirmed" which displays the new confirmed Covid-19 cases by country and the cumulative sum of the "Countries.NewDeaths" which displays the new deaths from Covid-19 by country.There is also the daily confirm South-Africa Cases.
 
 
-```{r, message=FALSE, echo= FALSE}
+```{r}
 require(tidyverse)
 require(dplyr)
 
@@ -100,8 +100,6 @@ The table `tab2` displays the number of new Covid-19 deaths as of the specified 
 The table `tab3` displays the number of Total Covid-19 Deaths as of the specified date.
 
 ```{r}
-#table() creates contingency tables
-
 tab1<- table(data.by.Countries$Countries.Date, data.by.Countries$Countries.NewConfirmed)
 tab1
 
@@ -113,7 +111,6 @@ tab3
 
 ```
 
-
 # Numerical Summaries for some Quantitative Variables
 
 Numerical summaries provide all results from summary this can include the min, Q1, mean, median, Q3, and max and a valid sample size
@@ -124,7 +121,6 @@ summary(data.by.Countries)
 
 #Numerical Summary of variables by Globe
 summary(data.by.Globe)
-
 ```
 
 
