@@ -11,9 +11,9 @@ Some of these functions return data at a Global level and some of the APIs use t
 
 
 ```{r, eval = FALSE}
-rmarkdown::render("C:/Users/Stefa/OneDrive/Documents/GitHub/Project1new/docs/README.md",
+rmarkdown::render("C:/Users/Stefa/OneDrive/Documents/GitHub/Project1new/docs/README.rmd",
  output_format = "github_document",
- output_file = "docs/",
+ output_file = "docs/README.md",
  output_options = list(
  toc = FALSE,
  toc_depth = 3,
@@ -44,13 +44,16 @@ require("dplyr")
 require("tidyverse")
 ```
 
-# Data Exploration/Pulling Data
+# API Interaction Functions
 
-Here we will pull the data using the head function to begin modeling
 
-```{r, message=FALSE}
+`Countries`
 
-#Get the data end points from the API
+This function was created to interact with different Country endpoints of the Covid API. This function will return a `data.frame` containing Country data such as: Newly Confirmed Cases, Total Confirmed Cases, New Deaths, Total Deaths, New Recovered, Total Recover and the current date of each country. 
+
+```{r, eval=FALSE}
+
+Countries<- function(type="all", Country = "all"){
 my_url<- GET("https://api.covid19api.com/summary")
 my_result_text<- content(my_url, as = 'text')
 my_result_json<- fromJSON(my_result_text, flatten = TRUE)
@@ -58,29 +61,92 @@ my_result_df<- as.data.frame(my_result_json)
 my_result_df
 
 #Pulling Country Data
-data.by.Countries <-select(my_result_df, c('Countries.Country', 'Countries.CountryCode', 'Countries.NewConfirmed', 'Countries.TotalConfirmed', 'Countries.NewDeaths', 'Countries.TotalDeaths', 'Countries.NewRecovered', 'Countries.TotalRecovered', 'Countries.Date'))
+data.by.Countries <-select(my_result_df, c('Countries.Country', 'Countries.CountryCode', 'Countries.NewConfirmed', 'Countries.TotalConfirmed', 'Countries.NewDeaths', 'Countries.TotalDeaths', 'Countries.NewRecovered', 'Countries.TotalRecovered', 'Countries.Date'))}
+```
 
+`Globes`
 
+This function was created to interact with Global endpoints of the Covid API. This function will return a `data.frame` containing Covid-19 data for the globe such as: Newly Confirmed Cases, Total Confirmed Cases, New Deaths, Total Deaths, New Recovered, Total Recover and the current date of the world. 
+```{r, eval=FALSE}
 
-#Pulling Global Data
-data.by.Globe <-select(my_result_df, c('Global.NewConfirmed', 'Global.TotalConfirmed', 'Global.NewDeaths', 'Global.TotalDeaths', 'Global.NewRecovered', 'Global.TotalRecovered', 'Global.Date'))
+Globes<- function(type = "all", Country = "all"){
+my_url<- GET("https://api.covid19api.com/summary")
+my_result_text<- content(my_url, as = 'text')
+my_result_json<- fromJSON(my_result_text, flatten = TRUE)
+my_result_df<- as.data.frame(my_result_json)
+my_result_df
+data.by.Globe <-select(my_result_df, c('Global.NewConfirmed', 'Global.TotalConfirmed', 'Global.NewDeaths', 'Global.TotalDeaths', 'Global.NewRecovered', 'Global.TotalRecovered', 'Global.Date'))}
 
-#Pulling Day one Data
+```
+
+`SouthAfrica`
+
+This function was created to interact with South Africas endpoints of the Covid API. This function will return a `data.frame` containing Covid-19 data for the country South Africa such as: Latitude, Longitude, Cases, Status, and the current date.
+
+```{r, eval=FALSE}
 SouthAfrica<- function(type = "all", Country = "all"){
 my_url2<- GET("https://api.covid19api.com/dayone/country/south-africa/status/confirmed")
 my_result_text2<- content(my_url2, as = 'text')
 my_result_json2<- fromJSON(my_result_text2, flatten = TRUE)
 my_result_json2}
 
-
 ```
 
- # Two new added variables
+
+`WIPlive`
+
+This function will returns all live cases by case type for a country by the date displayed. These records are pulled every 10 minutes and are ungrouped.The cases must be one of: confirmed, recovered, deaths.
+
+```{r, eval= FALSE}
+WIPlive<- function(type = "all", Country = "all"){
+my_url<- GET("https://api.covid19api.com/world?from=2020-03-01T00:00:00Z&to=2020-04-01T00:00:00Z")
+my_result_text<- content(my_url, as = 'text')
+my_result_json<- fromJSON(my_result_text, flatten = TRUE)
+my_result_df<- as.data.frame(my_result_json)
+my_result_df}
+```
+
+
+`Daylive`
+
+This function will returns all cases by case type for a country from the first recorded case with the latest record being the live count. Cases will appear as be one of the following: confirmed, recovered, deaths
+
+```{r, eval= FALSE}
+Daylive<- function(type = "all", Country = "all"){
+my_url4<- GET("https://api.covid19api.com/dayone/country/south-africa/status/confirmed/live
+")
+my_result_text<- content(my_url4, as = 'text')
+my_result_json<- fromJSON(my_result_text, flatten = TRUE)
+my_result_df<- as.data.frame(my_result_json)
+my_result_df}
+```
+
+`Countrylive`
+
+This function will returns all cases by case type for all countries from the first recorded case with the latest record being the live count. Cases will appear as be one of the following: confirmed, recovered, deaths
+
+```{r, eval=FALSE}
+Daylive<- function(type = "all", Country = "all"){
+my_url5<- GET("https://api.covid19api.com/country/south-africa/status/confirmed/live?from=2020-03-01T00:00:00Z&to=2020-04-01T00:00:00Z")
+my_result_text<- content(my_url5, as = 'text')
+my_result_json<- fromJSON(my_result_text, flatten = TRUE)
+my_result_df<- as.data.frame(my_result_json)
+my_result_df}
+```
+
+
+
+# Data Exploration
+
+Here we will be interact with a few of the endpoints of the Covid-19 Data. Mainly, the Countries and Global Data
+
+
+# Creating Two new variables
  
 Here two new variables are created to display the cumulative sum of the variable "Countries.NewConfirmed" which displays the new confirmed Covid-19 cases by country and the cumulative sum of the "Countries.NewDeaths" which displays the new deaths from Covid-19 by country.There is also the daily confirm South-Africa Cases.
 
 
-```{r}
+```{r, eval=FALSE}
 require(tidyverse)
 require(dplyr)
 
@@ -99,7 +165,7 @@ The table `tab2` displays the number of new Covid-19 deaths as of the specified 
 
 The table `tab3` displays the number of Total Covid-19 Deaths as of the specified date.
 
-```{r}
+```{r, eval=FALSE}
 tab1<- table(data.by.Countries$Countries.Date, data.by.Countries$Countries.NewConfirmed)
 tab1
 
@@ -115,7 +181,7 @@ tab3
 
 Numerical summaries provide all results from summary this can include the min, Q1, mean, median, Q3, and max and a valid sample size
 
-```{r}
+```{r, eval = FALSE}
 #Numerical Summary of variables by each country
 summary(data.by.Countries)
 
@@ -129,7 +195,7 @@ summary(data.by.Globe)
 Plots provide viewers with a visualization of the data and the distribution of the dataset. It also will show how variables relate to one another.
 
 
-```{r}
+```{r,eval=FALSE}
 #1. Barplot
 data.by.Countries %>% filter(grepl('China|Korea|United States|United Kingdom|Italy|Spain',Countries.Country) & Countries.Date > '2021-10-02') %>% 
   select(Countries.Country, Countries.NewConfirmed) %>% 
