@@ -51,6 +51,7 @@ Here we will pull the data using the head function to begin modeling
 ```{r, message=FALSE}
 
 #Get the data end points from the API
+Data
 my_url<- GET("https://api.covid19api.com/summary")
 my_result_text<- content(my_url, as = 'text')
 my_result_json<- fromJSON(my_result_text, flatten = TRUE)
@@ -66,10 +67,11 @@ data.by.Countries <-select(my_result_df, c('Countries.Country', 'Countries.Count
 data.by.Globe <-select(my_result_df, c('Global.NewConfirmed', 'Global.TotalConfirmed', 'Global.NewDeaths', 'Global.TotalDeaths', 'Global.NewRecovered', 'Global.TotalRecovered', 'Global.Date'))
 
 #Pulling Day one Data
+SouthAfrica<- function(type = "all", Country = "all"){
 my_url2<- GET("https://api.covid19api.com/dayone/country/south-africa/status/confirmed")
 my_result_text2<- content(my_url2, as = 'text')
 my_result_json2<- fromJSON(my_result_text2, flatten = TRUE)
-my_result_json2
+my_result_json2}
 
 
 ```
