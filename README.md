@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 Project 1
 ================
 Stefanee Tillman
 9/25/2021
+=======
+[Project1new.md](https://github.com/StefaneeT/Project1new/files/7274703/Project1new.md)
+## Welcome to GitHub Pages
+>>>>>>> 2786e6b1dd6eed7ec5d9b5e878534a097d24c18d
 
 This is a vignette to show how to get data from an API. In this vignette
 we will be exploring data from a COVID-19 API. To begin, I will create a
