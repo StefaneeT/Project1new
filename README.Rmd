@@ -11,7 +11,7 @@ Some of these functions return data at a Global level and some of the APIs use t
 
 
 ```{r, eval = FALSE}
-rmarkdown::render("C:/Users/Stefa/OneDrive/Documents/GitHub/Project1new/Project1new.rmd",
+rmarkdown::render("C:/Users/Stefa/OneDrive/Documents/GitHub/Project1new/README.rmd",
  output_format = "github_document",
  output_file = "README.md",
  output_options = list(
@@ -51,7 +51,6 @@ Here we will pull the data using the head function to begin modeling
 ```{r, message=FALSE}
 
 #Get the data end points from the API
-Data
 my_url<- GET("https://api.covid19api.com/summary")
 my_result_text<- content(my_url, as = 'text')
 my_result_json<- fromJSON(my_result_text, flatten = TRUE)
