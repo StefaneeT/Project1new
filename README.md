@@ -15,7 +15,7 @@ full Country name (e.g. “Afghanistan”).
 ``` r
 rmarkdown::render("C:/Users/Stefa/OneDrive/Documents/GitHub/Project1new/docs/README.rmd",
  output_format = "github_document",
- output_file = "docs/README.md",
+ output_file = "docs/",
  output_options = list(
  toc = FALSE,
  toc_depth = 3,
