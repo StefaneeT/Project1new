@@ -1,7 +1,7 @@
 Project 1
 ================
 Stefanee Tillman
-9/25/2021
+10/04/2021
 
 This is a vignette to show how to get data from an API. In this vignette
 we will be exploring data from a COVID-19 API. To begin, I will create a
