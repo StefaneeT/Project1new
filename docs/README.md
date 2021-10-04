@@ -222,7 +222,6 @@ data.by.Countries %>% filter(grepl('China|Korea|United States|United Kingdom|Ita
   ggplot(aes(y = fct_reorder(Countries.Country, Countries.NewConfirmed), x = Countries.NewConfirmed)) +
     geom_bar(stat = 'identity', fill = 'darkred') + labs(title = 'Highest Covid-19 Confirmed Cases by Country', y= "Countries", x = "New Confirmed Cases")
     
-![plot](https://raw.githubusercontent.com/StefaneeT/StefaneeT.Project1new/main/images/Project1BarGraph.jpg)
 
 #2. Histogram
 ggplot(data=data.by.Countries, aes(data.by.Countries$Countries.NewConfirmed)) + 
@@ -257,3 +256,6 @@ my_result_json2 %>%
   group_by(Country, Date) %>% 
   summarise(Cases = sum(Cases)) %>% ggplot(aes(x = Date, y = Cases, group = )) + geom_line(color = 'red')
 ```
+
+
+![plot](https://raw.githubusercontent.com/StefaneeT/StefaneeT.Project1new/main/images/Project1BarGraph.jpg)
