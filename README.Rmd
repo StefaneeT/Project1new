@@ -47,63 +47,56 @@ require("tidyverse")
 # API Interaction Functions
 
 
-`Countries`
+`Summary.Covid`
 
-This function was created to interact with different Country endpoints of the Covid API. This function will return a `data.frame` containing Country data such as: Newly Confirmed Cases, Total Confirmed Cases, New Deaths, Total Deaths, New Recovered, Total Recover and the current date of each country. 
+This function was created to interact with different Country and Global endpoints of the Covid API. This function will return a `data.frame` containing Country and Global data such as: Newly Confirmed Cases, Total Confirmed Cases, New Deaths, Total Deaths, New Recovered, Total Recover and the current date of each country. 
 
 ```{r, eval=FALSE}
-
-Countries<- function(type="all", Country = "all"){
+Summary.Covid<- function(type = "all", country = "all"){
 my_url<- GET("https://api.covid19api.com/summary")
 my_result_text<- content(my_url, as = 'text')
 my_result_json<- fromJSON(my_result_text, flatten = TRUE)
 my_result_df<- as.data.frame(my_result_json)
 my_result_df
 
-#Pulling Country Data
-data.by.Countries <-select(my_result_df, c('Countries.Country', 'Countries.CountryCode', 'Countries.NewConfirmed', 'Countries.TotalConfirmed', 'Countries.NewDeaths', 'Countries.TotalDeaths', 'Countries.NewRecovered', 'Countries.TotalRecovered', 'Countries.Date'))}
-```
-
-`Globes`
-
-This function was created to interact with Global endpoints of the Covid API. This function will return a `data.frame` containing Covid-19 data for the globe such as: Newly Confirmed Cases, Total Confirmed Cases, New Deaths, Total Deaths, New Recovered, Total Recover and the current date of the world. 
-```{r, eval=FALSE}
-
-Globes<- function(type = "all", Country = "all"){
-my_url<- GET("https://api.covid19api.com/summary")
-my_result_text<- content(my_url, as = 'text')
-my_result_json<- fromJSON(my_result_text, flatten = TRUE)
-my_result_df<- as.data.frame(my_result_json)
+if(type =="country"){
 my_result_df
-data.by.Globe <-select(my_result_df, c('Global.NewConfirmed', 'Global.TotalConfirmed', 'Global.NewDeaths', 'Global.TotalDeaths', 'Global.NewRecovered', 'Global.TotalRecovered', 'Global.Date'))}
 
+data.by.Countries <-select(my_result_df, c('Countries.Country', 'Countries.CountryCode', 'Countries.NewConfirmed', 'Countries.TotalConfirmed', 'Countries.NewDeaths', 'Countries.TotalDeaths', 'Countries.NewRecovered', 'Countries.TotalRecovered', 'Countries.Date'))
+
+#Creating Two New Variables
+data.by.Countries<- data.by.Countries %>%  mutate(cumsum1 = cumsum(data.by.Countries$Countries.NewConfirmed), cumsum2 = cumsum(data.by.Countries$Countries.NewDeaths))
+data.by.Countries
+#Here two new variables are created to display the cumulative sum of the variable "Countries.NewConfirmed" which displays the new confirmed Covid-19 cases by country and the cumulative sum of the "Countries.NewDeaths" which displays the new deaths from Covid-19 by country.There is also the daily confirm South-Africa Cases.
+
+}
+else if(type == "global"){
+  
+#Pulling Global Data
+data.by.Globe <-select(my_result_df, c('Global.NewConfirmed', 'Global.TotalConfirmed', 'Global.NewDeaths', 'Global.TotalDeaths', 'Global.NewRecovered', 'Global.TotalRecovered', 'Global.Date'))
+
+}}
 ```
 
-`SouthAfrica`
+`Country.pull`
 
-This function was created to interact with South Africas endpoints of the Covid API. This function will return a `data.frame` containing Covid-19 data for the country South Africa such as: Latitude, Longitude, Cases, Status, and the current date.
+This function was created to interact with country endpoints of the Covid API. This function will return a `data.frame` containing Covid-19 data for the country such as: Name, Code, and Slug,
 
 ```{r, eval=FALSE}
-SouthAfrica<- function(type = "all", Country = "all"){
-my_url2<- GET("https://api.covid19api.com/dayone/country/south-africa/status/confirmed")
-my_result_text2<- content(my_url2, as = 'text')
-my_result_json2<- fromJSON(my_result_text2, flatten = TRUE)
-my_result_json2}
-
-```
-
-
-`WIPlive`
-
-This function will returns all live cases by case type for a country by the date displayed. These records are pulled every 10 minutes and are ungrouped.The cases must be one of: confirmed, recovered, deaths.
-
-```{r, eval= FALSE}
-WIPlive<- function(type = "all", Country = "all"){
-my_url<- GET("https://api.covid19api.com/world?from=2020-03-01T00:00:00Z&to=2020-04-01T00:00:00Z")
+Country.pull<- function(country, Type){
+my_url<- GET("https://api.covid19api.com/countries")
 my_result_text<- content(my_url, as = 'text')
 my_result_json<- fromJSON(my_result_text, flatten = TRUE)
-my_result_df<- as.data.frame(my_result_json)
-my_result_df}
+my_result_json
+
+Type<- tolower((Type))
+
+if(Type == "country"){
+show<- my_result_json %>% filter(Country == country) %>% select(Slug)
+}else if(Type == "slug"){
+show<- my_result_json %>% filter(Country == country) %>% select(Slug)
+}}
+return(my_result_json)
 ```
 
 
@@ -113,12 +106,13 @@ This function will returns all cases by case type for a country from the first r
 
 ```{r, eval= FALSE}
 Daylive<- function(type = "all", Country = "all"){
-my_url4<- GET("https://api.covid19api.com/dayone/country/south-africa/status/confirmed/live
-")
-my_result_text<- content(my_url4, as = 'text')
+my_url<- GET("https://api.covid19api.com/dayone/country/south-africa/status/confirmed/live")
+my_result_text<- content(my_url, as = 'text')
 my_result_json<- fromJSON(my_result_text, flatten = TRUE)
-my_result_df<- as.data.frame(my_result_json)
-my_result_df}
+if(type == "Status")}
+}else if(Type == "Cases"){
+show<- my_result_json %>% filter(Country == country) %>% select(Status)
+}
 ```
 
 `Countrylive`
@@ -126,14 +120,37 @@ my_result_df}
 This function will returns all cases by case type for all countries from the first recorded case with the latest record being the live count. Cases will appear as be one of the following: confirmed, recovered, deaths
 
 ```{r, eval=FALSE}
-Daylive<- function(type = "all", Country = "all"){
-my_url5<- GET("https://api.covid19api.com/country/south-africa/status/confirmed/live?from=2020-03-01T00:00:00Z&to=2020-04-01T00:00:00Z")
-my_result_text<- content(my_url5, as = 'text')
+Daylive<- function(type = "all", Status = "all"){
+my_url<- GET("https://api.covid19api.com/country/south-africa/status/confirmed/live?from=2020-03-01T00:00:00Z&to=2020-04-01T00:00:00Z")
+my_result_text<- content(my_url, as = 'text')
 my_result_json<- fromJSON(my_result_text, flatten = TRUE)
-my_result_df<- as.data.frame(my_result_json)
-my_result_df}
+my_result_json
+if(type == "Confirmed", "Recovered", "Deaths"){
+show<- my_result_json %>% filter(Status == status) %>% select(Confirmed)
+}else if(Type == "Recovered"){
+show<- my_result_json %>% filter(Status == status) %>% select(Confirmed)
+}}
+return(my_result_json)
+
+
 ```
 
+`gather`
+
+This function will gather all needed data from previously made functions
+
+```{r, eval= FALSE}
+gather<- function(type, ...){
+  type<- tolower(type)
+  if(func == "Summary.Covid")
+{
+    table<- Summary.covid(...)
+  } else if (type == "Country.pull"){
+    table<- Country.pull()
+  }}
+return(table)
+
+```
 
 
 # Data Exploration
@@ -141,21 +158,11 @@ my_result_df}
 Here we will be interact with a few of the endpoints of the Covid-19 Data. Mainly, the Countries and Global Data
 
 
-# Creating Two new variables
- 
-Here two new variables are created to display the cumulative sum of the variable "Countries.NewConfirmed" which displays the new confirmed Covid-19 cases by country and the cumulative sum of the "Countries.NewDeaths" which displays the new deaths from Covid-19 by country.There is also the daily confirm South-Africa Cases.
-
-
 ```{r, eval=FALSE}
 require(tidyverse)
 require(dplyr)
 
-#Create two new variables 
-data.by.Countries<- data.by.Countries %>%  mutate(cumsum1 = cumsum(data.by.Countries$Countries.NewConfirmed), cumsum2 = cumsum(data.by.Countries$Countries.NewDeaths))
-data.by.Countries
 ```
-
-# Contingency Tables
 
 A contingency table is a way to redraw data and assemble it into a table. A contingency table will show the original data in a manner that allows the reader to gain an overall summary of the original data provided.
 
@@ -177,23 +184,17 @@ tab3
 
 ```
 
-# Numerical Summaries for some Quantitative Variables
-
 Numerical summaries provide all results from summary this can include the min, Q1, mean, median, Q3, and max and a valid sample size
 
 ```{r, eval = FALSE}
 #Numerical Summary of variables by each country
-summary(data.by.Countries)
+Summary<-summary(data.by.Countries)
+
 
 #Numerical Summary of variables by Globe
 summary(data.by.Globe)
 ```
-
-
-# Create Five plots
- 
 Plots provide viewers with a visualization of the data and the distribution of the dataset. It also will show how variables relate to one another.
-
 
 ```{r,eval=FALSE}
 #1. Barplot
@@ -204,39 +205,43 @@ data.by.Countries %>% filter(grepl('China|Korea|United States|United Kingdom|Ita
   arrange(-Countries.NewConfirmed) %>% 
   top_n(15) %>% 
   ggplot(aes(y = fct_reorder(Countries.Country, Countries.NewConfirmed), x = Countries.NewConfirmed)) +
-    geom_bar(stat = 'identity', fill = 'darkred') + labs(title = 'Highest Covid-19 Confirmed Cases by Country', y= "Countries", x = "New Confirmed Cases")
+    geom_bar(stat = 'identity', fill = 'pink') + labs(title = 'Highest Covid-19 Confirmed Cases by Country', y= "Countries", x = "New Confirmed Cases")
+```
 
+From this bargraph graph, we can observe that between the countries China, South Korea, United States, United Kingdom, Italy, and Spain the United States has more newly confirmed Covid-19 Cases with South Korea having the least.
 
+```{r,eval=FALSE}
 #2. Histogram
-ggplot(data=data.by.Countries, aes(data.by.Countries$Countries.NewConfirmed)) + 
-  geom_histogram()
+my_result_df<- data.by.Countries[c(1:8), c(1:8)]
+g<- ggplot(data = my_result_df, aes(x = Countries.CountryCode, y = Countries.TotalDeaths)) + geom_bar(stat = "identity", width = 0.7, col = "pink", fill = "pink") + labs(title = 'Total Confirmed Cases for Country Code', y= "Total Confirmed", x = "Country Code")
+print(g)
+```
 
+For this histogram, we can observe the total confirmed Covid-19 from each Country Code 'AD', 'AF', 'AG', 'AL', 'AM', 'AO', 'AR', 'DZ'. From this graph, it can be observed that Argentina has high confirmed Covid-19 Rates. 
 
-qplot(data.by.Countries$Countries.NewConfirmed,
-      geom="histogram",
-      binwidth = 1,  
-      main = "Number of Countries of NewConfirmed Cases", 
-      xlab = "Countries",  
-      fill=I("blue"), 
-      col=I("red"), 
-      alpha=I(.2),
-      xlim=c(20,50))
+```{r,eval=FALSE}
 #3. Box Plot
+ggplot(South.Africa.data, aes(x = Country, y = Cases)) + geom_boxplot(width =0.7, aes(fill = Country))+ labs(title = 'Cases in South Africa', y= "Cases", x = "Country")
 
-#Sept daily cases of 5 countries
-data.by.Countries%>% filter(grepl('China|Korea|United States|United Kingdom|Italy|Spain',Countries.Country) & Countries.Date >= '2021-09-02') %>% ggplot(data.by.Countries, mapping = aes(x=Countries.Date, y = Countries.Country)) + geom_boxplot() + geom_point(mapping = aes(color = Countries.Country) , position = "jitter", size = 2) + labs(title = "Boxplot for Weight") + coord_flip()
-
-
+```
+This boxplot isn't too meaninful but it displays a Box Plot for the Country Africa and the IQR for confirmed case rates over the pandemic.
+ 
+```{r,eval=FALSE}
 #4. Scatter Plot
 data.by.Countries %>% select(Countries.Country, Countries.TotalConfirmed, Countries.TotalDeaths, Countries.TotalRecovered) %>% 
 group_by(Countries.Country) %>% 
 summarise(dead = sum(Countries.TotalDeaths) ,confirmed = sum(Countries.TotalConfirmed)) %>% ggplot(aes(x = confirmed, y = dead)) + geom_point() + labs(title = 'Scatter Plot', y= "Total Deaths", x = "Total Confirmed")
 
-
-#5. Extra Plot b 
-my_result_json2 %>% 
-  select(Country, Date, Cases) %>% 
-  filter(Country == 'South Africa') %>% 
-  group_by(Country, Date) %>% 
-  summarise(Cases = sum(Cases)) %>% ggplot(aes(x = Date, y = Cases, group = )) + geom_line(color = 'red')
 ```
+This scatterplot isn't too interesting but it displays the relationship between total confirmed cases and total deaths. The two variables don't have an extended relationship but it can be observed that if 0 cases are confirmed then there will be 0 deaths and then it flares out as cases increases.
+
+```{r,eval=FALSE}
+#5. Extra Plot b 
+my_result_df<- data.by.Countries[c(1:8), c(1:8)]
+g<- ggplot(data = my_result_df, aes(x = Countries.CountryCode, y = Countries.TotalDeaths)) + geom_bar(stat = "identity", width = 0.7, col = "pink", fill = "pink") + labs(title = 'Total Confirmed Deaths for Country Code', y= "Total Deaths", x = "Country Code")
+print(g)
+
+```
+
+For this histogram, we can observe the Total Confirmed Covid Deaths from the first Country Codes, similarly to the confirmed Covid Cases; Argentina still has the highest rates.
+
