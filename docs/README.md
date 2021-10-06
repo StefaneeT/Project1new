@@ -183,7 +183,7 @@ specified date.
 tab1<- table(data.by.Countries$Countries.Date, data.by.Countries$Countries.NewConfirmed)
 tab1
 ```
-![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Contingency Table 1.png)
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/ContingencyTable1.png)
 
 ```r
 tab2<- table(data.by.Countries$Countries.Date, data.by.Countries$Countries.NewDeaths)
