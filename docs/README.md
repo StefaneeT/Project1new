@@ -189,7 +189,7 @@ tab1
 tab2<- table(data.by.Countries$Countries.Date, data.by.Countries$Countries.NewDeaths)
 tab2
 ```
-![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Contingency Table 2.png)
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/ContingencyTable2.png)
 
 
 ```r
@@ -197,7 +197,7 @@ tab3<- table(data.by.Countries$Countries.Date, data.by.Countries$Countries.Total
 tab3
 ```
 
-![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Contingency Table 2.png)
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/ContingencyTable3.png)
 
 Numerical summaries provide all results from summary this can include
 the min, Q1, mean, median, Q3, and max and a valid sample size
@@ -206,13 +206,13 @@ the min, Q1, mean, median, Q3, and max and a valid sample size
 #Numerical Summary of variables by each country
 Summary<-summary(data.by.Countries)
 ```
-![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Country Numerical Summary.png)
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/CountryNumericalSummary.png)
 
 ```r
 #Numerical Summary of variables by Globe
 summary(data.by.Globe)
 ```
-![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Global Numerical Summary.png)
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/GlobalNumericalSummary.png)
 
 
 
