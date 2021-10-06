@@ -182,13 +182,22 @@ specified date.
 ``` r
 tab1<- table(data.by.Countries$Countries.Date, data.by.Countries$Countries.NewConfirmed)
 tab1
+```
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Contingency Table 1.png)
 
+```r
 tab2<- table(data.by.Countries$Countries.Date, data.by.Countries$Countries.NewDeaths)
 tab2
+```
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Contingency Table 2.png)
 
+
+```r
 tab3<- table(data.by.Countries$Countries.Date, data.by.Countries$Countries.TotalDeaths)
 tab3
 ```
+
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Contingency Table 2.png)
 
 Numerical summaries provide all results from summary this can include
 the min, Q1, mean, median, Q3, and max and a valid sample size
@@ -196,11 +205,16 @@ the min, Q1, mean, median, Q3, and max and a valid sample size
 ``` r
 #Numerical Summary of variables by each country
 Summary<-summary(data.by.Countries)
+```
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Country Numerical Summary.png)
 
-
+```r
 #Numerical Summary of variables by Globe
 summary(data.by.Globe)
 ```
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Global Numerical Summary.png)
+
+
 
 Plots provide viewers with a visualization of the data and the
 distribution of the dataset. It also will show how variables relate to
