@@ -230,6 +230,8 @@ my_result_df<- data.by.Countries[c(1:8), c(1:8)]
 g<- ggplot(data = my_result_df, aes(x = Countries.CountryCode, y = Countries.TotalDeaths)) + geom_bar(stat = "identity", width = 0.7, col = "pink", fill = "pink") + labs(title = 'Total Confirmed Cases for Country Code', y= "Total Confirmed", x = "Country Code")
 print(g)
 ```
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/ProjectHistogram.jpg)
+
 
 For this histogram, we can observe the total confirmed Covid-19 from
 each Country Code ‘AD’, ‘AF’, ‘AG’, ‘AL’, ‘AM’, ‘AO’, ‘AR’, ‘DZ’. From
@@ -251,6 +253,8 @@ group_by(Countries.Country) %>%
 summarise(dead = sum(Countries.TotalDeaths) ,confirmed = sum(Countries.TotalConfirmed)) %>% ggplot(aes(x = confirmed, y = dead)) + geom_point() + labs(title = 'Scatter Plot', y= "Total Deaths", x = "Total Confirmed")
 ```
 
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/Project1ScatterPlot.jpg)
+
 This scatterplot isn’t too interesting but it displays the relationship
 between total confirmed cases and total deaths. The two variables don’t
 have an extended relationship but it can be observed that if 0 cases are
@@ -263,6 +267,8 @@ my_result_df<- data.by.Countries[c(1:8), c(1:8)]
 g<- ggplot(data = my_result_df, aes(x = Countries.CountryCode, y = Countries.TotalDeaths)) + geom_bar(stat = "identity", width = 0.7, col = "pink", fill = "pink") + labs(title = 'Total Confirmed Deaths for Country Code', y= "Total Deaths", x = "Country Code")
 print(g)
 ```
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/ProjectExtraHistogram.jpg)
+
 
 For this histogram, we can observe the Total Confirmed Covid Deaths from
 the first Country Codes, similarly to the confirmed Covid Cases;
