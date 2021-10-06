@@ -242,6 +242,7 @@ Covid-19 Rates.
 #3. Box Plot
 ggplot(South.Africa.data, aes(x = Country, y = Cases)) + geom_boxplot(width =0.7, aes(fill = Country))+ labs(title = 'Cases in South Africa', y= "Cases", x = "Country")
 ```
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/ProjectBoxplot.jpg)
 
 This boxplot isn’t too meaninful but it displays a Box Plot for the
 Country Africa and the IQR for confirmed case rates over the pandemic.
