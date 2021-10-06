@@ -217,6 +217,7 @@ data.by.Countries %>% filter(grepl('China|Korea|United States|United Kingdom|Ita
   ggplot(aes(y = fct_reorder(Countries.Country, Countries.NewConfirmed), x = Countries.NewConfirmed)) +
     geom_bar(stat = 'identity', fill = 'pink') + labs(title = 'Highest Covid-19 Confirmed Cases by Country', y= "Countries", x = "New Confirmed Cases")
 ```
+![plot](https://raw.githubusercontent.com/StefaneeT/Project1new/main/images/ProjectBarplot.jpg)
 
 From this bargraph graph, we can observe that between the countries
 China, South Korea, United States, United Kingdom, Italy, and Spain the
